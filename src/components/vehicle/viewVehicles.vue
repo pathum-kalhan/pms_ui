@@ -9,7 +9,7 @@
           <h1>View and update vehicles</h1>
         </v-card-title>
         <v-card-text>
-         
+
           <v-text-field label="Search" v-model="search" outline></v-text-field>
 
           <v-data-table :items="items" :headers="headers" :search="search" disable-initial-sort  :pagination.sync="pagination">
@@ -56,7 +56,7 @@ export default {
   data() {
     return {
       pagination: {
-        rowsPerPage: 10
+        rowsPerPage: 10,
       },
       search: '',
       items: [],

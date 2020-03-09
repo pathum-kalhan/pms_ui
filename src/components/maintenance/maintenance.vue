@@ -23,7 +23,7 @@
               <v-flex xs12 sm12 md6>
                 <v-text-field label="Payment" v-model="allowances" outline class="required"></v-text-field>
 
-                
+
               </v-flex>
               <v-flex xs11 sm6>
                 <v-menu
@@ -219,7 +219,6 @@ export default {
         this.lng = data.data.lng;
         this.notes = data.data.notes;
       } catch (error) {
-        
         alert('Error while loading the data from api...');
       }
     },
@@ -235,7 +234,7 @@ export default {
         );
 
         const places = await this.$http.get('place');
-        this.places = places.data.filter(e=> e.status)
+        this.places = places.data.filter(e => e.status);
       } catch (error) {
         alert('Error while loading the data from api...');
       }

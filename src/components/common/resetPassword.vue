@@ -34,27 +34,27 @@
       <v-alert v-model="hasAlert" dismissible :type="alertType">{{alert}}</v-alert>
     </v-flex>
   </v-layout>
-</template> 
+</template>
 
 <script>
-import { required, maxLength, minLength } from "vuelidate/lib/validators";
+import { required, maxLength, minLength } from 'vuelidate/lib/validators';
 
 export default {
   validations: {
     oldPassword: {
       required,
       maxLength: maxLength(15),
-      minLength: minLength(6)
+      minLength: minLength(6),
     },
-    newPassword: { required, maxLength: maxLength(15), minLength: minLength(6) }
+    newPassword: { required, maxLength: maxLength(15), minLength: minLength(6) },
   },
   data() {
     return {
-      oldPassword: "",
-      newPassword: "",
-      alert: "Failed",
-      alertType: "error",
-      hasAlert: false
+      oldPassword: '',
+      newPassword: '',
+      alert: 'Failed',
+      alertType: 'error',
+      hasAlert: false,
     };
   },
   computed: {
@@ -62,67 +62,60 @@ export default {
       const errors = [];
       if (!this.$v.oldPassword.$dirty) return errors;
       if (
-        !this.$v.oldPassword.required &&
-        errors.push("Old password is required.")
-      )
-        return errors;
+        !this.$v.oldPassword.required
+        && errors.push('Old password is required.')
+      ) { return errors; }
       if (
-        !this.$v.oldPassword.minLength &&
-        errors.push("Length for a valid Old password is 6 to 15.")
-      )
-        return errors;
+        !this.$v.oldPassword.minLength
+        && errors.push('Length for a valid Old password is 6 to 15.')
+      ) { return errors; }
       if (
-        !this.$v.oldPassword.maxLength &&
-        errors.push("Length for a valid Old password is 6 to 15.")
-      )
-        return errors;
+        !this.$v.oldPassword.maxLength
+        && errors.push('Length for a valid Old password is 6 to 15.')
+      ) { return errors; }
       return errors;
     },
     newPasswordErrors() {
       const errors = [];
       if (!this.$v.newPassword.$dirty) return errors;
       if (
-        !this.$v.newPassword.required &&
-        errors.push("Old password is required.")
-      )
-        return errors;
+        !this.$v.newPassword.required
+        && errors.push('Old password is required.')
+      ) { return errors; }
       if (
-        !this.$v.newPassword.minLength &&
-        errors.push("Length for a valid Old password is 6 to 15.")
-      )
-        return errors;
+        !this.$v.newPassword.minLength
+        && errors.push('Length for a valid Old password is 6 to 15.')
+      ) { return errors; }
       if (
-        !this.$v.newPassword.maxLength &&
-        errors.push("Length for a valid Old password is 6 to 15.")
-      )
-        return errors;
+        !this.$v.newPassword.maxLength
+        && errors.push('Length for a valid Old password is 6 to 15.')
+      ) { return errors; }
       return errors;
-    }
+    },
   },
   methods: {
     async handleResetPassword() {
-     
       try {
-        await this.$http.put("user/password", {
+        await this.$http.put('user/password', {
           oldPassword: this.oldPassword,
-          newPassword: this.newPassword
+          newPassword: this.newPassword,
         });
         this.$refs.passwordReset.reset();
         this.$v.$reset();
 
-        this.alert = "Password changed successfully!";
-        this.alertType = "success";
+        this.alert = 'Password changed successfully!';
+        this.alertType = 'success';
         this.hasAlert = true;
       } catch (error) {
         if (error.response.status === 401) {
           this.alert = error.response.data;
         } else {
-          this.alert = "Failed";
+          this.alert = 'Failed';
         }
-        this.alertType = "error";
+        this.alertType = 'error';
         this.hasAlert = true;
       }
-    }
-  }
+    },
+  },
 };
 </script>

@@ -56,8 +56,8 @@
 </template>
 
 <script>
-import JsonExcel from "vue-json-excel";
-import { required } from "vuelidate/lib/validators";
+import JsonExcel from 'vue-json-excel';
+import { required } from 'vuelidate/lib/validators';
 // vehicles.id,
 //     vehicles.make,
 //     vehicles.year,
@@ -72,11 +72,11 @@ export default {
     return {
       selectedCats: { required },
       orderBy: { required },
-      status: { required }
+      status: { required },
     };
   },
   components: {
-    JsonExcel
+    JsonExcel,
   },
   mounted() {
     this.GET();
@@ -84,39 +84,39 @@ export default {
   data() {
     return {
       json_fields: {
-        Id: "id",
-        Model: "make",
-        Year: "year",
-        Colour:"color",
-        RegNumber:"vin",
-        TankVolume:"tankVolume",
-        FuelLevel:"fuelLevel",
-        FuelType:"fuelType",
-        Category:"cat"
+        Id: 'id',
+        Model: 'make',
+        Year: 'year',
+        Colour: 'color',
+        RegNumber: 'vin',
+        TankVolume: 'tankVolume',
+        FuelLevel: 'fuelLevel',
+        FuelType: 'fuelType',
+        Category: 'cat',
       },
       items: [],
       selectedCats: [],
       orderByTypes: [
-        { text: "Fuel level High to Low", value: "vehicles.fuelLevel DESC" },
-        { text: "Fuel level Low to High", value: "vehicles.fuelLevel" },
-        { text: "Tank capacity High to Low", value: "vehicles.tankVolume DESC" },
-        { text: "Tank capacity Low to High", value: "vehicles.tankVolume" }
+        { text: 'Fuel level High to Low', value: 'vehicles.fuelLevel DESC' },
+        { text: 'Fuel level Low to High', value: 'vehicles.fuelLevel' },
+        { text: 'Tank capacity High to Low', value: 'vehicles.tankVolume DESC' },
+        { text: 'Tank capacity Low to High', value: 'vehicles.tankVolume' },
       ],
-      orderBy: "fuelLevel",
-      alertType: "error",
-      alert: "Error while loading the data from api...",
+      orderBy: 'fuelLevel',
+      alertType: 'error',
+      alert: 'Error while loading the data from api...',
       hasAlert: false,
-      status: "All"
+      status: 'All',
     };
   },
   methods: {
     async GET() {
       try {
-        const data = await this.$http.get("category");
+        const data = await this.$http.get('category');
         this.items = data.data;
       } catch (error) {
-        this.alertType = "error";
-        this.alert = "Error while loading the data from api...";
+        this.alertType = 'error';
+        this.alert = 'Error while loading the data from api...';
         this.hasAlert = false;
       }
     },
@@ -125,33 +125,31 @@ export default {
         const formData = {
           ids: this.selectedCats,
           orderBy: this.orderBy,
-          status: this.status
+          status: this.status,
         };
 
         if (this.$v.$invalid) {
-          this.alertType = "error";
-          this.alert = "Please fill all the required fields.";
+          this.alertType = 'error';
+          this.alert = 'Please fill all the required fields.';
           this.hasAlert = true;
           return;
         }
-        
-        const data = await this.$http.post("/reports/fuel", formData);
+
+        const data = await this.$http.post('/reports/fuel', formData);
         if (data.data.length === 0) {
-          this.alertType = "error";
-          this.alert = "No data available!";
+          this.alertType = 'error';
+          this.alert = 'No data available!';
           this.hasAlert = true;
           return;
         }
-        
+
         return data.data;
       } catch (error) {
-        this.alertType = "error";
-        this.alert = "Some thing went wrong!";
+        this.alertType = 'error';
+        this.alert = 'Some thing went wrong!';
         this.hasAlert = true;
       }
-    }
-  }
+    },
+  },
 };
 </script>
-
-

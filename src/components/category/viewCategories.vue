@@ -9,7 +9,7 @@
           <h1>View and update categories</h1>
         </v-card-title>
         <v-card-text>
-         
+
           <v-text-field label="Search" v-model="search" outline></v-text-field>
           <v-data-table :items="items" :headers="headers" :search="search" disable-initial-sort  :pagination.sync="pagination">
             <template slot="items" slot-scope="props">
@@ -48,8 +48,8 @@ export default {
   },
   data() {
     return {
-       pagination: {
-        rowsPerPage: 10
+      pagination: {
+        rowsPerPage: 10,
       },
       search: '',
       items: [],

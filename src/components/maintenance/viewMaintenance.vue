@@ -11,7 +11,7 @@
         </v-card-title>
         <v-card-text>
           <v-text-field label="Search" v-model="search" outline></v-text-field>
-       
+
           <v-data-table :items="items" :headers="headers" :search="search" disable-initial-sort>
             <template slot="items" slot-scope="props">
 
@@ -21,7 +21,7 @@
               <td>{{props.item.payment}}</td>
               <td>{{props.item.notes}}</td>
               <td>{{props.item.createdAt}}</td>
-              
+
             </template>
           </v-data-table>
         </v-card-text>
@@ -50,7 +50,7 @@ export default {
         { text: 'Payment', value: 'payment' },
         { text: 'Notes', value: 'notes' },
         { text: 'createdAt', value: 'createdAt' },
-      
+
       ],
       alertType: 'error',
       hasAlert: false,

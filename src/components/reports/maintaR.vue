@@ -50,8 +50,8 @@
 </template>
 
 <script>
-import JsonExcel from "vue-json-excel";
-import { required } from "vuelidate/lib/validators";
+import JsonExcel from 'vue-json-excel';
+import { required } from 'vuelidate/lib/validators';
 // vehicles.id,
 //     vehicles.make,
 //     vehicles.year,
@@ -65,90 +65,88 @@ export default {
   validations() {
     return {
       selectedCats: { required },
-      month: { required }
+      month: { required },
     };
   },
   components: {
-    JsonExcel
+    JsonExcel,
   },
   mounted() {
     this.GET();
   },
   data() {
     return {
-      month: "",
+      month: '',
       json_fields: {
-        Id: "id",
-        Payment: "payment",
-        From: "startFrom",
-        To: "stopAt",
-        Notes: "notes",
-        CreatedAt: "createdAt",
-        VIN: "vin",
-        Category: "name",
+        Id: 'id',
+        Payment: 'payment',
+        From: 'startFrom',
+        To: 'stopAt',
+        Notes: 'notes',
+        CreatedAt: 'createdAt',
+        VIN: 'vin',
+        Category: 'name',
       },
       items: [],
       selectedCats: [],
       orderByTypes: [
-        { text: "Fuel level High to Low", value: "vehicles.fuelLevel DESC" },
-        { text: "Fuel level Low to High", value: "vehicles.fuelLevel" },
+        { text: 'Fuel level High to Low', value: 'vehicles.fuelLevel DESC' },
+        { text: 'Fuel level Low to High', value: 'vehicles.fuelLevel' },
         {
-          text: "Tank capacity High to Low",
-          value: "vehicles.tankVolume DESC"
+          text: 'Tank capacity High to Low',
+          value: 'vehicles.tankVolume DESC',
         },
-        { text: "Tank capacity Low to High", value: "vehicles.tankVolume" }
+        { text: 'Tank capacity Low to High', value: 'vehicles.tankVolume' },
       ],
-      orderBy: "fuelLevel",
-      alertType: "error",
-      alert: "Error while loading the data from api...",
+      orderBy: 'fuelLevel',
+      alertType: 'error',
+      alert: 'Error while loading the data from api...',
       hasAlert: false,
-      status: "All"
+      status: 'All',
     };
   },
   methods: {
     async GET() {
       try {
-        const data = await this.$http.get("category");
+        const data = await this.$http.get('category');
         this.items = data.data;
       } catch (error) {
-        this.alertType = "error";
-        this.alert = "Error while loading the data from api...";
+        this.alertType = 'error';
+        this.alert = 'Error while loading the data from api...';
         this.hasAlert = false;
       }
     },
     async POST() {
       try {
         let month = String(this.month);
-        month = month.replace('-','')
+        month = month.replace('-', '');
         const formData = {
           ids: this.selectedCats,
-          month
+          month,
         };
 
         if (this.$v.$invalid) {
-          this.alertType = "error";
-          this.alert = "Please fill all the required fields.";
+          this.alertType = 'error';
+          this.alert = 'Please fill all the required fields.';
           this.hasAlert = true;
           return;
         }
 
-        const data = await this.$http.post("/reports/maintenance", formData);
+        const data = await this.$http.post('/reports/maintenance', formData);
         if (data.data.length === 0) {
-          this.alertType = "error";
-          this.alert = "No data available!";
+          this.alertType = 'error';
+          this.alert = 'No data available!';
           this.hasAlert = true;
           return;
         }
 
         return data.data;
       } catch (error) {
-        this.alertType = "error";
-        this.alert = "Some thing went wrong!";
+        this.alertType = 'error';
+        this.alert = 'Some thing went wrong!';
         this.hasAlert = true;
       }
-    }
-  }
+    },
+  },
 };
 </script>
-
-

@@ -244,10 +244,10 @@ export default {
       } catch (error) {
         if (this.component_status) {
           if (error.response.status === 422) {
-          this.alert = error.response.data;
-        } else {
-          this.alert = 'Vehicle creatation failed.';
-        }
+            this.alert = error.response.data;
+          } else {
+            this.alert = 'Vehicle creatation failed.';
+          }
           this.alertType = 'error';
           this.hasAlert = true;
         } else {

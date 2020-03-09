@@ -53,19 +53,19 @@
 </template>
 
 <script>
-import JsonExcel from "vue-json-excel";
-import { required } from "vuelidate/lib/validators";
+import JsonExcel from 'vue-json-excel';
+import { required } from 'vuelidate/lib/validators';
 
 export default {
   validations() {
     return {
       selectedRoles: { required },
       orderBy: { required },
-      status: { required }
+      status: { required },
     };
   },
   components: {
-    JsonExcel
+    JsonExcel,
   },
   mounted() {
     this.GET();
@@ -73,43 +73,43 @@ export default {
   data() {
     return {
       json_fields: {
-        Id: "id",
-        "Full name": "fullName",
-        Email: "email",
-        NIC: "nic",
-        "Contact Number 1": "contactNumber1",
-        "Contact Number 2": "contactNumber2",
-        Address: "address",
-        Notes: "notes",
-        Role: "role",
-        Status: "status",
-        createdAt: "createdAt",
-        updatedAt:"updatedAt"
+        Id: 'id',
+        'Full name': 'fullName',
+        Email: 'email',
+        NIC: 'nic',
+        'Contact Number 1': 'contactNumber1',
+        'Contact Number 2': 'contactNumber2',
+        Address: 'address',
+        Notes: 'notes',
+        Role: 'role',
+        Status: 'status',
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt',
       },
       items: [],
-      selectedRoles: ["admin"],
+      selectedRoles: ['admin'],
       orderByTypes: [
-        { text: "First Name Ascending", value: "firstName" },
-        { text: "Last Name Descending", value: "lastName DESC" },
-        { text: "Created Date Ascending", value: "createdAt" },
-        { text: "Created Date Descending", value: "createdAt DESC" }
+        { text: 'First Name Ascending', value: 'firstName' },
+        { text: 'Last Name Descending', value: 'lastName DESC' },
+        { text: 'Created Date Ascending', value: 'createdAt' },
+        { text: 'Created Date Descending', value: 'createdAt DESC' },
       ],
-      orderBy: "firstName",
-      alertType: "error",
-      alert: "Error while loading the data from api...",
+      orderBy: 'firstName',
+      alertType: 'error',
+      alert: 'Error while loading the data from api...',
       hasAlert: false,
-      status: "All"
+      status: 'All',
     };
   },
   methods: {
     async GET() {
       try {
-        const data = await this.$http.get("reports/roles");
+        const data = await this.$http.get('reports/roles');
 
         this.items = data.data;
       } catch (error) {
-        this.alertType = "error";
-        this.alert = "Error while loading the data from api...";
+        this.alertType = 'error';
+        this.alert = 'Error while loading the data from api...';
         this.hasAlert = false;
       }
     },
@@ -118,32 +118,32 @@ export default {
         const formData = {
           roles: this.selectedRoles,
           orderBy: this.orderBy,
-          status: this.status
+          status: this.status,
         };
 
         if (this.$v.$invalid) {
-          this.alertType = "error";
-          this.alert = "Please fill all the required fields.";
+          this.alertType = 'error';
+          this.alert = 'Please fill all the required fields.';
           this.hasAlert = true;
           return;
         }
 
-        const data = await this.$http.post("/reports/user", formData);
+        const data = await this.$http.post('/reports/user', formData);
         if (data.data.length === 0) {
-          this.alertType = "error";
-          this.alert = "No data available!";
+          this.alertType = 'error';
+          this.alert = 'No data available!';
           this.hasAlert = true;
           return;
         }
 
         return data.data;
       } catch (error) {
-        this.alertType = "error";
-        this.alert = "Some thing went wrong!";
+        this.alertType = 'error';
+        this.alert = 'Some thing went wrong!';
         this.hasAlert = true;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -69,30 +69,30 @@ export default {
       vehicles: null,
       totalVehicles: null,
       totalDrivers: null,
-      search: "",
+      search: '',
       items: [],
       headers: [
-        { text: "Id", value: "id" },
-        { text: "Area", value: "area" },
-        { text: "Action", value: "action" },
-        { text: "Description", value: "description" },
-        { text: "User", value: "user.fullName" },
-        { text: "Reference Id", value: "refId" },
-        { text: "Date and Time", value: "createdAt" }
+        { text: 'Id', value: 'id' },
+        { text: 'Area', value: 'area' },
+        { text: 'Action', value: 'action' },
+        { text: 'Description', value: 'description' },
+        { text: 'User', value: 'user.fullName' },
+        { text: 'Reference Id', value: 'refId' },
+        { text: 'Date and Time', value: 'createdAt' },
       ],
-      alertType: "error",
-      alert: "Error while loading the data from api...",
+      alertType: 'error',
+      alert: 'Error while loading the data from api...',
       hasAlert: false,
       isLoading: true,
       pagination: {
-        rowsPerPage: 20
-      }
+        rowsPerPage: 20,
+      },
     };
   },
   methods: {
     async GET() {
       try {
-        const data = await this.$http.get("dashboard");
+        const data = await this.$http.get('dashboard');
         this.drivers = data.data.drivers;
         this.driversActive = data.data.driversActive;
         this.onGoingTrips = data.data.onGoingTrips;
@@ -104,11 +104,11 @@ export default {
 
         //
       } catch (error) {
-        this.alertType = "error";
-        this.alert = "Error while loading the data from api...";
+        this.alertType = 'error';
+        this.alert = 'Error while loading the data from api...';
         this.hasAlert = true;
       }
-    }
-  }
+    },
+  },
 };
 </script>

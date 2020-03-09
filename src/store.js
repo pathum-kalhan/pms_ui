@@ -14,7 +14,7 @@ export default new Vuex.Store({
     name: '',
     token: '',
     role: '',
-    permissions:[]
+    permissions: [],
   },
   mutations: {
     set_login(state, payload) {
@@ -28,21 +28,20 @@ export default new Vuex.Store({
       state.role = null;
       state.permissions = null;
     },
-    setPermissions(state,payload) {
+    setPermissions(state, payload) {
       state.permissions = payload;
-    }
+    },
   },
   actions: {
     setPermissions({ commit }, payload) {
       return new Promise((resolve, reject) => {
-        
         try {
-          commit('setPermissions',payload)
-          resolve()
+          commit('setPermissions', payload);
+          resolve();
         } catch (error) {
-          reject()
+          reject();
         }
-      })
+      });
     },
     login({
       commit,
@@ -73,5 +72,5 @@ export default new Vuex.Store({
       });
     },
   },
-  
+
 });

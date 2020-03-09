@@ -10,10 +10,9 @@
         </v-card-title>
         <v-card-text>
           <v-text-field
-            label="NIC Number"
-            v-model="nic"
-            :error-messages="nicNumberErrors"
-            @blur="$v.nic.$touch()"
+            label="Email"
+            v-model="email"
+
             outline
           ></v-text-field>
           <v-text-field
@@ -38,8 +37,8 @@
 <script>
 import { required, maxLength, minLength } from 'vuelidate/lib/validators';
 
-import permission from '../../permissions';
 import { mapActions } from 'vuex';
+import permission from '../../permissions';
 // import routes from "../../routes.js";
 const nicValidator = (value) => {
   const oldNic = /^[0-9]{9}[vVxX]$/;
@@ -49,24 +48,20 @@ const nicValidator = (value) => {
 export default {
   validations() {
     return {
-      nic: {
-        required,
-        nicValidator,
-      },
       password: { required, minLength: minLength(6), maxLength: maxLength(15) },
     };
   },
   computed: {
-    nicNumberErrors() {
-      const errors = [];
-      if (!this.$v.nic.$dirty) return errors;
-      if (!this.$v.nic.required && errors.push('NIC number is required.')) return errors;
-      if (
-        !this.$v.nic.nicValidator
-        && errors.push('NIC number format is invalid.')
-      ) return errors;
-      return errors;
-    },
+    // nicNumberErrors() {
+    //   const errors = [];
+    //   if (!this.$v.nic.$dirty) return errors;
+    //   if (!this.$v.nic.required && errors.push('NIC number is required.')) return errors;
+    //   if (
+    //     !this.$v.nic.nicValidator
+    //     && errors.push('NIC number format is invalid.')
+    //   ) return errors;
+    //   return errors;
+    // },
     passwordErrors() {
       const errors = [];
       if (!this.$v.password.$dirty) return errors;
@@ -88,29 +83,29 @@ export default {
       password: '',
       hasError: false,
       alert: '',
+      email: null,
     };
   },
   methods: {
-    ...mapActions(['login','setPermissions']),
+    ...mapActions(['login', 'setPermissions']),
     async onLogin() {
       try {
-        const data = await this.$http.post('user/login', {
-          nic: this.nic,
+        const data = await this.$http.post('auth/login', {
+          email: this.email,
           password: this.password,
         });
+
 
         await this.login({
           name: data.data.userName,
           role: data.data.role,
           token: data.data.token,
         });
-         
 
-      
-        await this.setPermissions(permission[data.data.role])
-        this.$router.push('/viewTrips');
+
+        await this.setPermissions(permission[data.data.role]);
+        // this.$router.push('/viewUsers');
       } catch (error) {
-        
         if (error.response.status === 401) {
           this.alert = error.response.data;
         } else {

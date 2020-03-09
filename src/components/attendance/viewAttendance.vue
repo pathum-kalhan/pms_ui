@@ -6,34 +6,33 @@
     <v-flex xs12 sm12 md12>
       <v-card>
         <v-card-title>
-          <h1>View and update places</h1>
+          <h1>Attendance history</h1>
         </v-card-title>
         <v-card-text>
           <v-text-field label="Search" v-model="search" outline></v-text-field>
           <v-data-table :items="items" :headers="headers" :search="search" disable-initial-sort>
             <template slot="items" slot-scope="props">
               <td>{{props.item.id}}</td>
-              <td>{{props.item.name}}</td>
-              <td>{{props.item.address}}</td>
-              <td>{{props.item.lat}}</td>
-              <td>{{props.item.lng}}</td>
-              <td>{{props.item.notes}}</td>
+              <td>{{props.item.fullName}}</td>
+              <td>{{props.item.site}}</td>
+              <td>{{props.item.attendanceDate}}</td>
+              <td>{{props.item.checkIn}}</td>
+              <td>{{props.item.checkOut}}</td>
+              <td>{{props.item.status}}</td>
 
-              <td>{{props.item.createdAt}}</td>
-              <td>{{props.item.updatedAt}}</td>
+
               <td>
                 <v-btn
                   class="warning"
-                  @click="$router.push({path:'/place',query:{id:props.item.id}})"
+                  @click="$router.push({path:'/attendance',query:{id:props.item.id}})"
                 >Update</v-btn>
               </td>
               <td>
                 <v-btn
-                  @click="PUT('place',props.item.status,props.item.id)"
-                  :class="{'error':props.item.status}"
+                  @click="onDelete(props.item.id)"
+                 class="error"
                 >
-                  <span v-if="props.item.status">Disable</span>
-                  <span v-else>Enable</span>
+                  delete
                 </v-btn>
               </td>
             </template>
@@ -55,27 +54,21 @@ export default {
       items: [],
       headers: [
         { text: 'Id', value: 'id' },
-        { text: 'Name', value: 'name' },
-        { text: 'Address', value: 'address' },
-        { text: 'Latitude', value: 'lat' },
-        { text: 'Longitude', value: 'lng' },
-        { text: 'Notes', value: 'notes' },
-        {
-          text: 'createdAt',
-          value: 'createdAt',
-        },
-        {
-          text: 'updatedAt',
-          value: 'updatedAt',
-        },
+        { text: 'User name', value: 'fullName' },
+        { text: 'Site', value: 'site' },
+        { text: 'Date', value: 'attendanceDate' },
+        { text: 'checkIn', value: 'checkIn' },
+        { text: 'checkOut', value: 'checkOut' },
+        { text: 'Status', value: 'status' },
+
         {
           text: 'Update',
           value: null,
           sortable: false,
         },
         {
-          text: 'Change status',
-          value: 'status',
+          text: 'Delete',
+          value: null,
         },
       ],
       alertType: 'error',
@@ -86,7 +79,7 @@ export default {
   methods: {
     async GET() {
       try {
-        const data = await this.$http.get('place');
+        const data = await this.$http.get('attendance');
         this.items = data.data;
       } catch (error) {
         this.alertType = 'error';
@@ -94,9 +87,9 @@ export default {
         this.hasAlert = true;
       }
     },
-    async PUT(model_name, status, id) {
+    async onDelete(id) {
       try {
-        await this.$http.put('common', { model_name, status: !status, id });
+        await this.$http.delete(`attendance/${id}`);
         this.GET();
       } catch (error) {
         this.alertType = 'error';

@@ -4,16 +4,16 @@
       <v-form ref="userForm">
         <v-card>
           <v-card-title>
-            <h1 v-if="component_status">Create an account</h1>
-            <h1 v-else>Update an account</h1>
+            <h1 v-if="component_status">Create an user account</h1>
+            <h1 v-else>Update an user account</h1>
           </v-card-title>
           <v-card-text>
             <v-divider class="ma-1"></v-divider>
             <v-layout row wrap>
               <v-flex xs12 sm12 md4>
                 <v-radio-group row v-model="gender">
-                  <v-radio :value="true" label="Mr. " color="blue"></v-radio>
-                  <v-radio :value="false" label="Ms. " color="pink"></v-radio>
+                  <v-radio value="Mr" label="Mr. " color="blue"></v-radio>
+                  <v-radio value="Ms" label="Ms. " color="pink"></v-radio>
                 </v-radio-group>
               </v-flex>
               <v-flex xs12 sm12 md4>
@@ -124,6 +124,12 @@
               <v-flex xs12 sm12 md12>
                 <v-select label="Role" outline v-model="role" class="required" :items="roles"></v-select>
               </v-flex>
+              <v-flex xs12 sm12 md6>
+                <v-date-picker v-model="dateJoined" :landscape="true"></v-date-picker>
+              </v-flex>
+              <v-flex xs12 sm12 md6>
+                <v-date-picker v-model="birthday" :landscape="true"></v-date-picker>
+              </v-flex>
             </v-layout>
           </v-card-text>
           <v-card-actions>
@@ -151,17 +157,17 @@ import {
   minLength,
   email,
   sameAs,
-  alpha
-} from "vuelidate/lib/validators";
+  alpha,
+} from 'vuelidate/lib/validators';
 
 const alwaysOK = { OK: () => true };
-const nicValidator = value => {
+const nicValidator = (value) => {
   const oldNic = /^[0-9]{9}[vVxX]$/;
   const newNic = /^[0-9]{12}$/;
   return oldNic.test(value) || newNic.test(value);
 };
 
-const phoneNumberValidator = value => {
+const phoneNumberValidator = (value) => {
   const regexPattern = /^0(70|71|72|75|76|77|78|11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)\d{7}$/;
   return regexPattern.test(value);
 };
@@ -170,12 +176,11 @@ export default {
   computed: {
     contactNumber1Errors() {
       const errors = [];
-      if (!this.$v.contactNumber1.$dirty || !this.contactNumber1 ) return errors;
+      if (!this.$v.contactNumber1.$dirty || !this.contactNumber1) return errors;
       if (
-        !this.$v.contactNumber1.phoneNumberValidator &&
-        errors.push("Please enter a valid contact number!")
-      )
-        return errors;
+        !this.$v.contactNumber1.phoneNumberValidator
+        && errors.push('Please enter a valid contact number!')
+      ) { return errors; }
       return errors;
       return errors;
     },
@@ -183,10 +188,9 @@ export default {
       const errors = [];
       if (!this.$v.contactNumber2.$dirty || !this.contactNumber2) return errors;
       if (
-        !this.$v.contactNumber2.phoneNumberValidator &&
-        errors.push("Please enter a valid contact number!")
-      )
-        return errors;
+        !this.$v.contactNumber2.phoneNumberValidator
+        && errors.push('Please enter a valid contact number!')
+      ) { return errors; }
       return errors;
       return errors;
     },
@@ -194,20 +198,20 @@ export default {
       const errors = [];
       if (!this.$v.firstName.$dirty) return errors;
       if (
-        !this.$v.firstName.required &&
-        errors.push("First name is required.")
+        !this.$v.firstName.required
+        && errors.push('First name is required.')
       ) {
         return errors;
       }
       if (
-        !this.$v.firstName.alpha &&
-        errors.push("First name can contains only alphabetic characters.")
+        !this.$v.firstName.alpha
+        && errors.push('First name can contains only alphabetic characters.')
       ) {
         return errors;
       }
       if (
-        !this.$v.firstName.maxLength &&
-        errors.push("Maximum length for first name is 15.")
+        !this.$v.firstName.maxLength
+        && errors.push('Maximum length for first name is 15.')
       ) {
         return errors;
       }
@@ -216,18 +220,18 @@ export default {
     lastNameErrors() {
       const errors = [];
       if (!this.$v.lastName.$dirty) return errors;
-      if (!this.$v.lastName.required && errors.push("Last name is required.")) {
+      if (!this.$v.lastName.required && errors.push('Last name is required.')) {
         return errors;
       }
       if (
-        !this.$v.lastName.alpha &&
-        errors.push("Last name can contains only alphabetic characters.")
+        !this.$v.lastName.alpha
+        && errors.push('Last name can contains only alphabetic characters.')
       ) {
         return errors;
       }
       if (
-        !this.$v.lastName.maxLength &&
-        errors.push("Maximum length for last name is 15.")
+        !this.$v.lastName.maxLength
+        && errors.push('Maximum length for last name is 15.')
       ) {
         return errors;
       }
@@ -236,67 +240,59 @@ export default {
     nicNumberErrors() {
       const errors = [];
       if (!this.$v.nic.$dirty) return errors;
-      if (!this.$v.nic.required && errors.push("NIC number is required."))
-        return errors;
+      if (!this.$v.nic.required && errors.push('NIC number is required.')) { return errors; }
       if (
-        !this.$v.nic.nicValidator &&
-        errors.push("NIC number format is invalid.")
-      )
-        return errors;
+        !this.$v.nic.nicValidator
+        && errors.push('NIC number format is invalid.')
+      ) { return errors; }
       return errors;
     },
     addressErrors() {
       const errors = [];
       if (!this.$v.address.$dirty) return errors;
       // !this.$v.address.required && errors.push("Name is required.");
-      !this.$v.address.maxLength &&
-        errors.push("Maximum length for the address is 100.");
+      !this.$v.address.maxLength
+        && errors.push('Maximum length for the address is 100.');
       return errors;
     },
     noteErrors() {
       const errors = [];
       if (!this.$v.notes.$dirty) return errors;
       // !this.$v.address.required && errors.push("Name is required.");
-      !this.$v.notes.maxLength &&
-        errors.push("Maximum length for the notes is 300.");
+      !this.$v.notes.maxLength
+        && errors.push('Maximum length for the notes is 300.');
       return errors;
     },
     emailErrors() {
       const errors = [];
       if (!this.$v.email.$dirty) return errors;
-      if (!this.$v.email.required && errors.push("Email is required."))
-        return errors;
-      if (!this.$v.email.email && errors.push("Please enter a valid email"))
-        return errors;
+      if (!this.$v.email.required && errors.push('Email is required.')) { return errors; }
+      if (!this.$v.email.email && errors.push('Please enter a valid email')) { return errors; }
       return errors;
     },
     passwordErrors() {
       const errors = [];
       if (!this.$v.password.$dirty) return errors;
-      if (!this.$v.password.required && errors.push("Password is required."))
-        return errors;
+      if (!this.$v.password.required && errors.push('Password is required.')) { return errors; }
       if (
-        !this.$v.password.minLength &&
-        errors.push("Length for a valid password is 6 to 15.")
-      )
-        return errors;
+        !this.$v.password.minLength
+        && errors.push('Length for a valid password is 6 to 15.')
+      ) { return errors; }
       if (
-        !this.$v.password.maxLength &&
-        errors.push("Length for a valid password is 6 to 15.")
-      )
-        return errors;
+        !this.$v.password.maxLength
+        && errors.push('Length for a valid password is 6 to 15.')
+      ) { return errors; }
       return errors;
     },
     confirmPasswordErrors() {
       const errors = [];
       if (!this.$v.confirm_password.$dirty) return errors;
       if (
-        !this.$v.confirm_password.sameAs &&
-        errors.push("Password not matched")
-      )
-        return errors;
+        !this.$v.confirm_password.sameAs
+        && errors.push('Password not matched')
+      ) { return errors; }
       return errors;
-    }
+    },
   },
   validations() {
     return {
@@ -308,25 +304,27 @@ export default {
       notes: { maxLength: maxLength(300) },
       nic: {
         required,
-        nicValidator
+        nicValidator,
       },
       firstName: {
         required,
         alpha,
-        maxLength: maxLength(15)
+        maxLength: maxLength(15),
       },
       lastName: {
         required,
         alpha,
-        maxLength: maxLength(15)
+        maxLength: maxLength(15),
       },
       email: { required, email },
       password: this.component_status
         ? { required, minLength: minLength(6), maxLength: maxLength(15) }
         : alwaysOK,
       confirm_password: this.component_status
-        ? { sameAs: sameAs("password") }
-        : alwaysOK
+        ? { sameAs: sameAs('password') }
+        : alwaysOK,
+      dateJoined: { required },
+      birthday: { required },
     };
   },
   mounted() {
@@ -337,77 +335,77 @@ export default {
   },
   data() {
     return {
-      gender: true,
-      firstName: "",
-      lastName: "",
-      nic: "",
-      contactNumbers: "",
-      address: "",
-      notes: "",
+      gender: 'Mr',
+      firstName: '',
+      lastName: '',
+      nic: '',
+      contactNumbers: '',
+      address: '',
+      notes: '',
       component_status: true,
-      id: "",
-      email: "",
-      password: "",
-      confirm_password: "",
+      id: '',
+      email: '',
+      password: '',
+      confirm_password: '',
       roles: [
         {
-          text: "admin"
+          text: 'admin',
         },
-        { text: "staff" },
+        { text: 'staff' },
         {
-          text: "manager"
+          text: 'to',
         },
-        { text: "driver" }
+        // { text: 'driver' },
       ],
-      role: "staff",
-      alertType: "error",
+      role: 'staff',
+      alertType: 'error',
       hasAlert: false,
-      alert: "",
-      contactNumber1: "",
-      contactNumber2: ""
+      alert: '',
+      contactNumber1: '',
+      contactNumber2: '',
+      dateJoined: '',
+      birthday: '',
     };
   },
   methods: {
     async onSignUp() {
       try {
         const formData = {
-          gender: this.gender,
+          title: this.gender,
           firstName: this.firstName,
           lastName: this.lastName,
+          email: this.email,
           nic: this.nic,
           contactNumber1: this.contactNumber1,
           contactNumber2: this.contactNumber2,
           address: this.address,
           notes: this.notes,
-          role: this.role,
           password: this.password,
-          email: this.email
+          role: this.role,
+          dateJoined: this.dateJoined,
+          birthday: this.birthday,
         };
-       
-        if (this.component_status) {
-          
 
-          await this.$http.post("user/signup", formData);
+        if (this.component_status) {
+          await this.$http.post('auth/register', formData);
           this.$refs.userForm.reset();
           this.$v.$reset();
-          
 
-          this.alertType = "success";
+
+          this.alertType = 'success';
           this.hasAlert = true;
-          this.alert = "User created succesfully!";
+          this.alert = 'User created succesfully!';
         } else {
           await this.$http.put(`/user/${this.id}`, formData);
-          this.$router.push("/viewUsers");
+          this.$router.push('/viewUsers');
         }
       } catch (error) {
-        
         if (error.response.status === 422) {
           this.alert = error.response.data;
-        }else{
-          this.alert = "Failed!";
-
+        } else {
+          this.alert = 'Failed!';
         }
-        this.alertType = "error";
+        this.alertType = 'error';
         this.hasAlert = true;
       }
     },
@@ -429,12 +427,12 @@ export default {
         this.password = data.data.password;
         this.email = data.data.email;
       } catch (error) {
-        this.alertType = "error";
-        this.alert = "Error while loading the data from api...";
+        this.alertType = 'error';
+        this.alert = 'Error while loading the data from api...';
         this.hasAlert = false;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

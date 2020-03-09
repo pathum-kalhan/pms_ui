@@ -20,7 +20,7 @@
                 v-model="selectedUsers"
                 multiple
                 outline
-                
+
               ></v-autocomplete>
             </v-flex>
           </v-layout>
@@ -44,51 +44,51 @@
 </template>
 
 <script>
-import JsonExcel from "vue-json-excel";
-import { required } from "vuelidate/lib/validators";
+import JsonExcel from 'vue-json-excel';
+import { required } from 'vuelidate/lib/validators';
 //
 
 export default {
   validations: {
     dateFrom: { required },
-    selectedUsers: { required }
+    selectedUsers: { required },
   },
   components: {
-    JsonExcel
+    JsonExcel,
   },
   mounted() {
     this.GET();
-    this.maxDate = this.$moment().format('YYYY-MM-DD')
+    this.maxDate = this.$moment().format('YYYY-MM-DD');
   },
   data() {
     return {
-      maxDate:"",
+      maxDate: '',
       json_fields: {
-        id: "id",
-        "Full name": "name",
-        Area: "area",
-        Action: "action",
-        Description: "description",
-        "Reference Id": "refId",
-        CreatedAt: "createdAt"
+        id: 'id',
+        'Full name': 'name',
+        Area: 'area',
+        Action: 'action',
+        Description: 'description',
+        'Reference Id': 'refId',
+        CreatedAt: 'createdAt',
       },
       items: [],
       selectedUsers: [],
-      dateFrom: "",
-      alertType: "error",
-      alert: "Error while loading the data from api...",
-      hasAlert: false
+      dateFrom: '',
+      alertType: 'error',
+      alert: 'Error while loading the data from api...',
+      hasAlert: false,
     };
   },
   methods: {
     async GET() {
       try {
-        const data = await this.$http.get("user");
+        const data = await this.$http.get('user');
 
         this.items = data.data;
       } catch (error) {
-        this.alertType = "error";
-        this.alert = "Error while loading the data from api...";
+        this.alertType = 'error';
+        this.alert = 'Error while loading the data from api...';
         this.hasAlert = false;
       }
     },
@@ -96,30 +96,29 @@ export default {
       try {
         const formData = {
           ids: this.selectedUsers,
-          date: this.dateFrom
+          date: this.dateFrom,
         };
         if (this.$v.$invalid) {
-          
-          this.alertType = "error";
-          this.alert = "Please fill all the required fields.";
+          this.alertType = 'error';
+          this.alert = 'Please fill all the required fields.';
           this.hasAlert = true;
           return;
         }
-        const data = await this.$http.post("/reports/audits", formData);
-        if(data.data.length === 0){
-           this.alertType = "error";
-          this.alert = "No data available!";
+        const data = await this.$http.post('/reports/audits', formData);
+        if (data.data.length === 0) {
+          this.alertType = 'error';
+          this.alert = 'No data available!';
           this.hasAlert = true;
           return;
         }
 
         return data.data;
       } catch (error) {
-         this.alertType = "error";
-        this.alert = "Some thing went wrong!";
+        this.alertType = 'error';
+        this.alert = 'Some thing went wrong!';
         this.hasAlert = true;
       }
-    }
-  }
+    },
+  },
 };
 </script>

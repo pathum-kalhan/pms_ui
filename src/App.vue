@@ -46,7 +46,7 @@
     <v-toolbar app class="primary">
       <v-toolbar-side-icon @click="drawer = !drawer" v-if="token" dark></v-toolbar-side-icon>
       <v-icon dark large>fa-truck-moving</v-icon>
-      <v-toolbar-title class="white--text">Hettiarachchi Logistics TMS</v-toolbar-title>
+      <v-toolbar-title class="white--text">Disanayake PMS</v-toolbar-title>
       <v-chip v-if="token" class="ml-1">{{name}}</v-chip>
       <v-spacer v-if="token"></v-spacer>
        <v-avatar color="indigo" v-if="token" @click="$router.push('/resetPassword')">
@@ -59,13 +59,13 @@
         <router-view></router-view>
       </v-container>
     </v-content>
-    <v-footer  class="primary white--text">
+    <!-- <v-footer  class="primary white--text">
       <v-spacer></v-spacer>
 
       <v-icon class="ml-1 mr-1" color="red">fa-code</v-icon>WITH
       <v-icon class="ml-1 mr-1" color="red">fa-heart</v-icon>BY LAHIRU
       <v-spacer></v-spacer>
-    </v-footer>
+    </v-footer> -->
   </v-app>
 </template>
 
