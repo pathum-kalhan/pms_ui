@@ -39,11 +39,11 @@
               </td>
               <td>
                 <v-btn
-                  @click="PUT('user',props.item.status,props.item.id)"
-                  :class="{'error':props.item.status}"
+                  @click="PUT(props.item.status,props.item.id)"
+                  :class="{'error':props.item.status,'warning':!props.item.status}"
                 >
-                  <span v-if="props.item.status">Disable</span>
-                  <span v-else>Enable</span>
+                  <span v-if="props.item.status">Incativate</span>
+                  <span v-else>Activate</span>
                 </v-btn>
               </td>
             </template>
@@ -103,13 +103,6 @@ export default {
     async GET() {
       try {
         const data = await this.$http.get('auth');
-
-        // data.data.forEach((element, i) => {
-        //   data.data[i].name = `${element.gender ? 'Mr.' : 'Ms.'}${
-        //     element.firstName
-        //   } ${element.lastName}`;
-        // });
-
         this.items = data.data;
       } catch (error) {
         this.alertType = 'error';
@@ -117,9 +110,9 @@ export default {
         this.hasAlert = false;
       }
     },
-    async PUT(model_name, status, id) {
+    async PUT(status, id) {
       try {
-        await this.$http.put('common', { model_name, status: !status, id });
+        await this.$http.put('auth/status', { status: !status, id });
         this.GET();
       } catch (error) {
         // alert('Status changing failed!');

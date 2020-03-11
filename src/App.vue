@@ -47,12 +47,10 @@
       <v-toolbar-side-icon @click="drawer = !drawer" v-if="token" dark></v-toolbar-side-icon>
       <v-icon dark large>fa-truck-moving</v-icon>
       <v-toolbar-title class="white--text">Disanayake PMS</v-toolbar-title>
-      <v-chip v-if="token" class="ml-1">{{name}}</v-chip>
-      <v-spacer v-if="token"></v-spacer>
-       <v-avatar color="indigo" v-if="token" @click="$router.push('/resetPassword')">
-      <v-icon dark>fa-cogs</v-icon>
-    </v-avatar>
-      <v-btn v-if="token" @click="onLogout">logout</v-btn>
+      <v-chip v-if="token" class="ml-1 white--text" color="#1E90FF">{{name}}</v-chip>
+      <v-spacer ></v-spacer>
+
+      <v-btn v-if="token" @click="onLogout" class="success">logout</v-btn>
     </v-toolbar>
     <v-content>
       <v-container fluid grid-list-sm>

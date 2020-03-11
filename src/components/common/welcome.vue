@@ -97,7 +97,7 @@ export default {
 
 
         await this.login({
-          name: data.data.userName,
+          name: data.data.name,
           role: data.data.role,
           token: data.data.token,
         });

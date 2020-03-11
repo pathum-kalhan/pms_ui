@@ -17,12 +17,12 @@ export default new Vuex.Store({
     permissions: [],
   },
   mutations: {
-    set_login(state, payload) {
+    setLogin(state, payload) {
       state.name = payload.name;
       state.token = payload.token;
       state.role = payload.role;
     },
-    set_logout(state) {
+    setLogout(state) {
       state.name = null;
       state.token = null;
       state.role = null;
@@ -50,8 +50,8 @@ export default new Vuex.Store({
         try {
           axios.defaults.headers.common.Authorization = payload.token;
           Cookies.set('token', payload.token);
-          commit('set_login', payload);
-          resolve('done');
+          commit('setLogin', payload);
+          resolve();
         } catch (error) {
           reject(error);
         }
@@ -64,8 +64,8 @@ export default new Vuex.Store({
         try {
           axios.defaults.headers.common.Authorization = null;
           Cookies.remove('token');
-          commit('set_logout');
-          resolve('done');
+          commit('setLogout');
+          resolve();
         } catch (error) {
           reject(error);
         }

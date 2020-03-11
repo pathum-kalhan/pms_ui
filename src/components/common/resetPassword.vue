@@ -4,7 +4,7 @@
       <v-form ref="passwordReset">
         <v-card>
           <v-card-title>
-            <h2>Change Password</h2>
+            <h2>Reset password</h2>
           </v-card-title>
           <v-card-text>
             <v-text-field
@@ -14,6 +14,9 @@
               class="required"
               :error-messages="oldPasswordErrors"
               @blur="$v.oldPassword.$touch()"
+              outline
+              type="password"
+
             ></v-text-field>
             <v-text-field
               label="New password"
@@ -22,10 +25,12 @@
               class="required"
               :error-messages="newPasswordErrors"
               @blur="$v.newPassword.$touch()"
+              outline
+              type="password"
             ></v-text-field>
           </v-card-text>
           <v-card-actions>
-            <v-btn class="primary" block :disabled="$v.$invalid" @click="handleResetPassword">change</v-btn>
+            <v-btn class="success" block :disabled="$v.$invalid" @click="handleResetPassword">change</v-btn>
           </v-card-actions>
         </v-card>
       </v-form>
@@ -96,7 +101,7 @@ export default {
   methods: {
     async handleResetPassword() {
       try {
-        await this.$http.put('user/password', {
+        await this.$http.put('auth/changePassword', {
           oldPassword: this.oldPassword,
           newPassword: this.newPassword,
         });
@@ -107,10 +112,10 @@ export default {
         this.alertType = 'success';
         this.hasAlert = true;
       } catch (error) {
-        if (error.response.status === 401) {
+        if (error.response.status === 422) {
           this.alert = error.response.data;
         } else {
-          this.alert = 'Failed';
+          this.alert = 'Opps! Something went wrong.';
         }
         this.alertType = 'error';
         this.hasAlert = true;

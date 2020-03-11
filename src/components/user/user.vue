@@ -11,7 +11,7 @@
             <v-divider class="ma-1"></v-divider>
             <v-layout row wrap>
               <v-flex xs12 sm12 md4>
-                <v-radio-group row v-model="gender">
+                <v-radio-group row v-model="title">
                   <v-radio value="Mr" label="Mr. " color="blue"></v-radio>
                   <v-radio value="Ms" label="Ms. " color="pink"></v-radio>
                 </v-radio-group>
@@ -296,7 +296,7 @@ export default {
   },
   validations() {
     return {
-      gender: { required },
+      title: { required },
       role: { required },
       contactNumber1: this.contactNumber1 ? { phoneNumberValidator } : alwaysOK,
       contactNumber2: this.contactNumber2 ? { phoneNumberValidator } : alwaysOK,
@@ -335,7 +335,7 @@ export default {
   },
   data() {
     return {
-      gender: 'Mr',
+      title: 'Mr',
       firstName: '',
       lastName: '',
       nic: '',
@@ -371,7 +371,7 @@ export default {
     async onSignUp() {
       try {
         const formData = {
-          title: this.gender,
+          title: this.title,
           firstName: this.firstName,
           lastName: this.lastName,
           email: this.email,
@@ -396,7 +396,20 @@ export default {
           this.hasAlert = true;
           this.alert = 'User created succesfully!';
         } else {
-          await this.$http.put(`/user/${this.id}`, formData);
+          await this.$http.put(`/auth/${this.id}`, {
+            title: this.title,
+            firstName: this.firstName,
+            lastName: this.lastName,
+            email: this.email,
+            nic: this.nic,
+
+            address: this.address,
+            notes: this.notes,
+
+            role: this.role,
+            dateJoined: this.dateJoined,
+            birthday: this.birthday,
+          });
           this.$router.push('/viewUsers');
         }
       } catch (error) {
@@ -411,21 +424,22 @@ export default {
     },
     async GET_DATA(id) {
       try {
-        const data = await this.$http.get(`user/${id}`);
+        const data = await this.$http.get(`auth/${id}`);
         this.id = data.data.id;
-        this.email = data.data.email;
+
         this.role = data.data.role;
-        this.gender = data.data.gender;
+        this.title = data.data.title;
         this.firstName = data.data.firstName;
         this.lastName = data.data.lastName;
         this.nic = data.data.nic;
-        this.contactNumber1 = data.data.contactNumber1;
-        this.contactNumber2 = data.data.contactNumber2;
+
         this.address = data.data.address;
         this.notes = data.data.notes;
-        this.role = data.data.role;
-        this.password = data.data.password;
+
+
         this.email = data.data.email;
+        this.dateJoined = data.data.dateJoined;
+        this.birthday = data.data.birthday;
       } catch (error) {
         this.alertType = 'error';
         this.alert = 'Error while loading the data from api...';
