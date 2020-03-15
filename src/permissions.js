@@ -21,6 +21,33 @@ module.exports = {
         { text: 'Attendance history', path: '/viewAttendance' },
       ],
     },
+    {
+      icon: 'fa-angle-up',
+      'icon-alt': 'fa-angle-down',
+      text: 'Item management',
+      children: [
+        { text: 'Create an item', path: '/item' },
+        { text: 'Items list', path: '/itemList' },
+      ],
+    },
+    {
+      icon: 'fa-angle-up',
+      'icon-alt': 'fa-angle-down',
+      text: 'Job management',
+      children: [
+        { text: 'Create a job', path: '/job' },
+        { text: 'Jobs list', path: '/jobsList' },
+      ],
+    },
+    {
+      icon: 'fa-angle-up',
+      'icon-alt': 'fa-angle-down',
+      text: 'Estimates management',
+      children: [
+        { text: 'Create an estimate', path: '/estimate' },
+        { text: 'Estimates list', path: '/estimatesList' },
+      ],
+    },
 
     { icon: 'fas fa-key', text: 'Reset password', path: '/resetPassword' },
 

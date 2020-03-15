@@ -30,7 +30,7 @@
             ></v-text-field>
           </v-card-text>
           <v-card-actions>
-            <v-btn class="success" block :disabled="$v.$invalid" @click="handleResetPassword">change</v-btn>
+            <v-btn class="success"  :disabled="$v.$invalid" @click="handleResetPassword">change</v-btn>
           </v-card-actions>
         </v-card>
       </v-form>

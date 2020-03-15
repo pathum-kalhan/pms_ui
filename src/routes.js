@@ -2,18 +2,18 @@ import welcome from './components/common/welcome.vue';
 import dashboard from './components/dashboard.vue';
 import user from './components/user/user.vue';
 import viewUsers from './components/user/viewUsers.vue';
-import category from './components/category/category.vue';
-import viewCategories from './components/category/viewCategories.vue';
-import vehicle from './components/vehicle/vehicle.vue';
-import viewVehicles from './components/vehicle/viewVehicles.vue';
+import item from './components/item/item.vue';
+import itemList from './components/item/itemsList.vue';
+import job from './components/job/job.vue';
+import jobsList from './components/job/jobsList.vue';
 import attendance from './components/attendance/attendance.vue';
 import viewAttendance from './components/attendance/viewAttendance.vue';
 import trip from './components/trip/trip.vue';
 import viewTrips from './components/trip/viewTrips.vue';
 import viewFuel from './components/fuel/viewFuel.vue';
 import fuelLogs from './components/fuel/fuelLogs.vue';
-import maintenance from './components/maintenance/maintenance.vue';
-import viewMaintenance from './components/maintenance/viewMaintenance.vue';
+import estimate from './components/estimate/estimate.vue';
+import estimatesList from './components/estimate/estimatesList.vue';
 import resetPassword from './components/common/resetPassword.vue';
 
 // reports
@@ -56,24 +56,24 @@ const routes = [
 
   },
   {
-    path: '/category',
-    component: category,
+    path: '/item',
+    component: item,
     meta: { permissions: ['admin', 'staff', 'manager'] },
 
   },
   {
-    path: '/viewCategories',
-    component: viewCategories,
+    path: '/itemList',
+    component: itemList,
     meta: { permissions: ['admin', 'staff', 'manager'] },
 
   }, {
-    path: '/vehicle',
-    component: vehicle,
+    path: '/job',
+    component: job,
     meta: { permissions: ['admin', 'staff', 'manager'] },
 
   }, {
-    path: '/viewVehicles',
-    component: viewVehicles,
+    path: '/jobsList',
+    component: jobsList,
     meta: { permissions: ['admin', 'staff', 'manager'] },
 
   }, {
@@ -109,13 +109,13 @@ const routes = [
       permissions: ['admin', 'staff', 'manager', 'driver'],
     },
   }, {
-    path: '/maintenance',
-    component: maintenance,
+    path: '/estimate',
+    component: estimate,
     meta: { permissions: ['admin', 'staff', 'manager', 'driver'] },
 
   }, {
     path: '/viewMaintence',
-    component: viewMaintenance,
+    component: estimatesList,
     meta: { permissions: ['admin', 'staff', 'manager', 'driver'] },
 
   },
