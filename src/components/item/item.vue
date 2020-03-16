@@ -4,7 +4,7 @@
       <v-form ref="form">
         <v-card>
           <v-card-title>
-            <h1 v-if="component_status">Create an item</h1>
+            <h1 v-if="componetStatus">Create an item</h1>
             <h1 v-else>Update an item</h1>
           </v-card-title>
           <v-card-text>
@@ -34,7 +34,7 @@
           </v-card-text>
           <v-card-actions>
             <v-btn
-              v-if="component_status"
+              v-if="componetStatus"
               class="success"
               @click="POST"
               :disabled="$v.$invalid"
@@ -80,13 +80,13 @@ export default {
   },
   mounted() {
     if (this.$route.query.id) {
-      this.component_status = false;
+      this.componetStatus = false;
       this.GET_DATA(this.$route.query.id);
     }
   },
   data() {
     return {
-      component_status: true,
+      componetStatus: true,
       id: '',
       name: '',
       unit: 'Cube',
@@ -105,8 +105,8 @@ export default {
           unit: this.unit,
         };
 
-        if (this.component_status) {
-          await this.$http.post('/item', formData);
+        if (this.componetStatus) {
+          await this.$http.post('item', formData);
           this.$refs.form.reset();
           this.$v.$reset();
 
@@ -114,9 +114,9 @@ export default {
           this.alertType = 'success';
           this.hasAlert = true;
         } else {
-          await this.$http.put(`/category/${this.id}`, formData);
-          alert('Category updated successfully!');
-          this.$router.push('/viewCategories');
+          await this.$http.put(`item/${this.id}`, formData);
+
+          this.$router.push('itemList');
         }
         // alert("Success!");
       } catch (error) {
@@ -131,10 +131,11 @@ export default {
     },
     async GET_DATA(id) {
       try {
-        const data = await this.$http.get(`/category/${id}`);
+        const data = await this.$http.get(`item/${id}`);
         this.id = data.data.id;
         this.name = data.data.name;
         this.description = data.data.description;
+        this.unit = data.data.unit;
       } catch (error) {
         alert('Error while loading the data from api...');
       }

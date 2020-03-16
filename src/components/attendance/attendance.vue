@@ -34,23 +34,24 @@
                 ></v-select>
               </v-flex>
               <v-flex xs12 sm12 md12>
-                <v-date-picker :landscape="true" full-width v-model="attendanceDate"></v-date-picker>
+
+                <v-date-picker :landscape="true" full-width v-model="attendanceDate" :max="attendanceDateMax"></v-date-picker>
               </v-flex>
-              <v-flex xs12 sm12 md6>
+              <v-flex xs12 sm12 md6 id="times">
                  <label for="checkOut">CHECK IN</label>
 
                 <input type="time" v-model="checkIn">
               </v-flex>
-              <v-flex xs12 sm12 md6>
+              <v-flex xs12 sm12 md6 id="times">
                 <label for="checkOut" >CHECK OUT</label>
 
                 <input type="time" v-model="checkOut">
               </v-flex>
               <v-flex xs12 sm12 md6>
                 <v-radio-group v-model="status" :row="true">
-                 <v-radio label="Half day" value="Half day"></v-radio>
-      <v-radio label="Short leave" value="Short leave"></v-radio>
-      <v-radio label="Normal" value="Normal"></v-radio>
+                 <v-radio label="Half day" value="Half day" color="red"></v-radio>
+      <v-radio label="Short leave" value="Short leave" color="orange"></v-radio>
+      <v-radio label="Normal" value="Normal" color="green"></v-radio>
                 </v-radio-group>
               </v-flex>
 
@@ -137,7 +138,9 @@ export default {
       this.readById(this.$route.query.id);
     }
     this.GET();
-    this.attendanceDate = new Date();
+    // this.attendanceDate = new Date();
+    this.attendanceDateMax = this.$moment().format('YYYY-MM-DD');
+    this.attendanceDate = this.$moment().format('YYYY-MM-DD');
   },
   data() {
     return {
@@ -156,7 +159,8 @@ export default {
       checkIn: '09:00',
       checkOut: '17:00',
       attendanceDate: null,
-      status: null,
+      status: 'Normal',
+      attendanceDateMax: '',
     };
   },
   methods: {
@@ -173,7 +177,7 @@ export default {
         this.$refs.form.reset();
         this.$v.$reset();
         this.alertType = 'success';
-        this.alert = 'Place created successfully!';
+        this.alert = 'Attendace marked successfully!';
         this.hasAlert = true;
       } catch (error) {
         if (error.response.status === 422) {
@@ -197,7 +201,9 @@ export default {
         this.attendanceDate = data.data.attendanceDate;
         this.status = data.data.status;
       } catch (error) {
-        alert('Error while loading the data from api...');
+        this.alert = 'Error while loading the data from api...';
+        this.alertType = 'error';
+        this.hasAlert = true;
       }
     },
     async GET() {
@@ -205,7 +211,9 @@ export default {
         const data = await this.$http.get('auth');
         this.items = data.data;
       } catch (error) {
-        alert('Error while loading the data from api...');
+        this.alert = 'Error while loading the data from api...';
+        this.alertType = 'error';
+        this.hasAlert = true;
       }
     },
     async PUT() {
@@ -234,3 +242,12 @@ export default {
   },
 };
 </script>
+
+<style >
+  #times{
+    padding: 30px;
+    /* margin: 40px; */
+    background-color: antiquewhite;
+    margin-top: 32px;
+  }
+</style>
