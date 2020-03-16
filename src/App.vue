@@ -46,7 +46,7 @@
     <v-toolbar app class="primary">
       <v-toolbar-side-icon @click="drawer = !drawer" v-if="token" dark></v-toolbar-side-icon>
       <v-icon dark large>fa-truck-moving</v-icon>
-      <v-toolbar-title class="white--text">Disanayake PMS</v-toolbar-title>
+      <v-toolbar-title class="white--text">{{projectName}}</v-toolbar-title>
       <v-chip v-if="token" class="ml-1 white--text" color="#1E90FF">{{name}}</v-chip>
       <v-spacer ></v-spacer>
 
@@ -80,6 +80,7 @@ export default {
   data() {
     return {
       drawer: true,
+      projectName: 'Dissanayake PMS',
 
     };
   },

@@ -4,8 +4,8 @@
       <v-form ref="userForm">
         <v-card>
           <v-card-title>
-            <h1 v-if="component_status">Create an user account</h1>
-            <h1 v-else>Update an user account</h1>
+            <h1 v-if="component_status">Create an user</h1>
+            <h1 v-else>Update an user</h1>
           </v-card-title>
           <v-card-text>
             <v-divider class="ma-1"></v-divider>
@@ -125,9 +125,11 @@
                 <v-select label="Role" outline v-model="role" class="required" :items="roles"></v-select>
               </v-flex>
               <v-flex xs12 sm12 md6>
-                <v-date-picker v-model="dateJoined" :landscape="true"></v-date-picker>
+                <v-subheader>Date joined</v-subheader>
+                <v-date-picker v-model="dateJoined" :landscape="true" :max="joinedDateMax"></v-date-picker>
               </v-flex>
               <v-flex xs12 sm12 md6>
+                <v-subheader>Birthday</v-subheader>
                 <v-date-picker v-model="birthday" :landscape="true"></v-date-picker>
               </v-flex>
             </v-layout>
@@ -332,6 +334,7 @@ export default {
       this.component_status = false;
       this.GET_DATA(this.$route.query.id);
     }
+    this.joinedDateMax = this.$moment().format('YYYY-MM-DD');
   },
   data() {
     return {
@@ -365,19 +368,28 @@ export default {
       contactNumber2: '',
       dateJoined: '',
       birthday: '',
+      joinedDateMax: '',
     };
   },
   methods: {
     async onSignUp() {
       try {
+        let contactNumbers = [];
+        if (this.contactNumber1) {
+          contactNumbers.push(this.contactNumber1);
+        }
+
+        if (this.contactNumber2) {
+          contactNumbers.push(this.contactNumber2);
+        }
+        contactNumbers = contactNumbers.join();
         const formData = {
           title: this.title,
           firstName: this.firstName,
           lastName: this.lastName,
           email: this.email,
           nic: this.nic,
-          contactNumber1: this.contactNumber1,
-          contactNumber2: this.contactNumber2,
+          contactNumbers,
           address: this.address,
           notes: this.notes,
           password: this.password,
@@ -387,7 +399,7 @@ export default {
         };
 
         if (this.component_status) {
-          await this.$http.post('auth/register', formData);
+          await this.$http.post('auth', formData);
           this.$refs.userForm.reset();
           this.$v.$reset();
 
@@ -409,6 +421,7 @@ export default {
             role: this.role,
             dateJoined: this.dateJoined,
             birthday: this.birthday,
+            contactNumbers,
           });
           this.$router.push('/viewUsers');
         }
@@ -440,6 +453,15 @@ export default {
         this.email = data.data.email;
         this.dateJoined = data.data.dateJoined;
         this.birthday = data.data.birthday;
+        if (this.contactNumbers) {
+          this.contactNumbers.split(',')[0] = this.contactNumber1;
+          if (this.contactNumbers.split(',')[1]) {
+            this.contactNumber2 = this.contactNumbers.split(',')[1];
+          }
+        } else {
+          this.contactNumber1 = '';
+          this.contactNumber2 = '';
+        }
       } catch (error) {
         this.alertType = 'error';
         this.alert = 'Error while loading the data from api...';

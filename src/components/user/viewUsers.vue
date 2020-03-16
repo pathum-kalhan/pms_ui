@@ -40,7 +40,7 @@
               <td>
                 <v-btn
                   @click="PUT(props.item.status,props.item.id)"
-                  :class="{'error':props.item.status,'warning':!props.item.status}"
+                  :class="{'error':props.item.status,'success':!props.item.status}"
                 >
                   <span v-if="props.item.status">Incativate</span>
                   <span v-else>Activate</span>

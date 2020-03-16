@@ -1,8 +1,5 @@
 <template>
   <v-layout justify-center row wrap>
-    <v-flex xs12 sm12 md12>
-      <v-alert v-model="hasError" dismissible type="error">{{alert}}</v-alert>
-    </v-flex>
     <v-flex xs12 sm12 md6>
       <v-card>
         <v-card-title class="primary white--text">
@@ -31,6 +28,9 @@
         </v-card-actions>
       </v-card>
     </v-flex>
+    <v-flex xs12 sm12 md12>
+      <v-alert v-model="hasError" dismissible type="error">{{alert}}</v-alert>
+    </v-flex>
   </v-layout>
 </template>
 
@@ -39,12 +39,7 @@ import { required, maxLength, minLength } from 'vuelidate/lib/validators';
 
 import { mapActions } from 'vuex';
 import permission from '../../permissions';
-// import routes from "../../routes.js";
-const nicValidator = (value) => {
-  const oldNic = /^[0-9]{9}[vVxX]$/;
-  const newNic = /^[0-9]{12}$/;
-  return oldNic.test(value) || newNic.test(value);
-};
+
 export default {
   validations() {
     return {
@@ -52,16 +47,7 @@ export default {
     };
   },
   computed: {
-    // nicNumberErrors() {
-    //   const errors = [];
-    //   if (!this.$v.nic.$dirty) return errors;
-    //   if (!this.$v.nic.required && errors.push('NIC number is required.')) return errors;
-    //   if (
-    //     !this.$v.nic.nicValidator
-    //     && errors.push('NIC number format is invalid.')
-    //   ) return errors;
-    //   return errors;
-    // },
+
     passwordErrors() {
       const errors = [];
       if (!this.$v.password.$dirty) return errors;
@@ -95,16 +81,14 @@ export default {
           password: this.password,
         });
 
-
         await this.login({
           name: data.data.name,
           role: data.data.role,
           token: data.data.token,
         });
 
-
         await this.setPermissions(permission[data.data.role]);
-        // this.$router.push('/viewUsers');
+        this.$router.push('/dashboard');
       } catch (error) {
         if (error.response.status === 401) {
           this.alert = error.response.data;

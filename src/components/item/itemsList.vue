@@ -83,7 +83,7 @@ export default {
   methods: {
     async GET() {
       try {
-        const data = await this.$http.get('category');
+        const data = await this.$http.get('item');
         this.items = data.data;
       } catch (error) {
         this.alertType = 'error';

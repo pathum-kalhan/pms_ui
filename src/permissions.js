@@ -8,8 +8,8 @@ module.exports = {
       'icon-alt': 'fa-angle-down',
       text: 'User management',
       children: [
-        { text: 'Create a user', path: '/user' },
-        { text: 'View and update users', path: '/viewUsers' },
+        { text: 'Create an user', path: '/user' },
+        { text: 'Users list', path: '/viewUsers' },
       ],
     },
     {

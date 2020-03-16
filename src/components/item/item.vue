@@ -4,8 +4,8 @@
       <v-form ref="form">
         <v-card>
           <v-card-title>
-            <h1 v-if="component_status">Create a category</h1>
-            <h1 v-else>Update a category</h1>
+            <h1 v-if="component_status">Create an item</h1>
+            <h1 v-else>Update an item</h1>
           </v-card-title>
           <v-card-text>
             <v-text-field
@@ -25,6 +25,12 @@
               @input="$v.description.$touch()"
               :counter="100"
             ></v-textarea>
+            <v-radio-group row v-model="unit">
+             <v-radio value="Feets" label="Feets" color="red"></v-radio>
+                  <v-radio value="Cube" label="Cube" color="green"></v-radio>
+                  <v-radio value="Barrels" label="Barrels" color="blue"></v-radio>
+                  <v-radio value="Units" label="Units" color="orange"></v-radio>
+            </v-radio-group>
           </v-card-text>
           <v-card-actions>
             <v-btn
@@ -45,7 +51,7 @@
 </template>
 
 <script>
-import { required, maxLength, minLength } from 'vuelidate/lib/validators';
+import { required, maxLength } from 'vuelidate/lib/validators';
 
 export default {
   computed: {
@@ -69,6 +75,7 @@ export default {
     return {
       name: { required, maxLength: maxLength(35) },
       description: { maxLength: maxLength(100) },
+      unit: { required },
     };
   },
   mounted() {
@@ -82,6 +89,7 @@ export default {
       component_status: true,
       id: '',
       name: '',
+      unit: 'Cube',
       description: '',
       alert: 'Failed',
       alertType: 'error',
@@ -92,17 +100,17 @@ export default {
     async POST() {
       try {
         const formData = {
-          //   id: this.id,
           name: this.name,
           description: this.description,
+          unit: this.unit,
         };
 
         if (this.component_status) {
-          const data = await this.$http.post('/category', formData);
+          await this.$http.post('/item', formData);
           this.$refs.form.reset();
           this.$v.$reset();
 
-          this.alert = 'Category created successfully!';
+          this.alert = 'Item created successfully!';
           this.alertType = 'success';
           this.hasAlert = true;
         } else {

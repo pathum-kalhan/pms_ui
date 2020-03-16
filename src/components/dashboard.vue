@@ -31,7 +31,7 @@
       </v-card>
     </v-flex> -->
     <v-flex xs12 sm12 md12>
-      <v-divider></v-divider>
+
       <h2 class="font-weight-light mb-1">Last 100 activities</h2>
       <v-text-field label="Search" v-model="search" outline></v-text-field>
       <v-data-table
@@ -48,7 +48,7 @@
           <td>{{props.item.description}}</td>
           <td>{{props.item.user.fullName}}</td>
           <td>{{props.item.reference}}</td>
-          <td>{{props.item.createdAt}}</td>
+          <td>{{props.item.createdDate}}</td>
         </template>
       </v-data-table>
     </v-flex>
@@ -78,7 +78,7 @@ export default {
         { text: 'Description', value: 'description' },
         { text: 'User', value: 'user.fullName' },
         { text: 'Reference Id', value: 'reference' },
-        { text: 'Date and Time', value: 'createdAt' },
+        { text: 'Date and Time', value: 'createdDate' },
       ],
       alertType: 'error',
       alert: 'Error while loading the data from api...',
