@@ -16,21 +16,21 @@
               <td>{{props.item.id}}</td>
               <td>{{props.item.name}}</td>
               <td>{{props.item.description}}</td>
-              <td>{{props.item.createdAt}}</td>
-              <td>{{props.item.updatedAt}}</td>
+              <td>{{props.item.createdDate}}</td>
+              <td>{{props.item.updatedDate}}</td>
               <td>
                 <v-btn
                   class="warning"
-                  @click="$router.push({path:'/category',query:{id:props.item.id}})"
+                  @click="$router.push({path:'/job',query:{id:props.item.id}})"
                 >Update</v-btn>
               </td>
               <td>
                 <v-btn
                   @click="PUT(props.item.status,props.item.id)"
-                  :class="{'error':props.item.status}"
+                  :class="{'error':props.item.status,'success':!props.item.status}"
                 >
-                  <span v-if="props.item.status">Disable</span>
-                  <span v-else>Enable</span>
+                  <span v-if="props.item.status">Inactivate</span>
+                  <span v-else>Activate</span>
                 </v-btn>
               </td>
             </template>
@@ -59,11 +59,11 @@ export default {
         { text: 'Description', value: 'description' },
         {
           text: 'createdAt',
-          value: 'createdAt',
+          value: 'createdDate',
         },
         {
           text: 'updatedAt',
-          value: 'updatedAt',
+          value: 'updatedDate',
         },
         {
           text: 'Update',

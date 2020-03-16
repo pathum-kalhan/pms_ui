@@ -98,7 +98,7 @@ export default {
         };
 
         if (this.componentStatus) {
-          await this.$http.post('/job', formData);
+          await this.$http.post('job', formData);
           this.$refs.form.reset();
           this.$v.$reset();
 
@@ -106,9 +106,9 @@ export default {
           this.alertType = 'success';
           this.hasAlert = true;
         } else {
-          await this.$http.put(`/category/${this.id}`, formData);
-          alert('Category updated successfully!');
-          this.$router.push('/viewCategories');
+          await this.$http.put(`job/${this.id}`, formData);
+
+          this.$router.push('/jobsList');
         }
         // alert("Success!");
       } catch (error) {
@@ -123,12 +123,14 @@ export default {
     },
     async GET_DATA(id) {
       try {
-        const data = await this.$http.get(`/category/${id}`);
+        const data = await this.$http.get(`job/${id}`);
         this.id = data.data.id;
         this.name = data.data.name;
         this.description = data.data.description;
       } catch (error) {
-        alert('Error while loading the data from api...');
+        this.alertType = 'error';
+        this.alert = 'Error while loading the data from api...';
+        this.hasAlert = true;
       }
     },
   },
