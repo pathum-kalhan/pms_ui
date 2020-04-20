@@ -99,7 +99,7 @@
                   counter="300"
                 ></v-textarea>
               </v-flex>
-              <v-flex xs12 sm12 md6 v-if="component_status">
+              <v-flex xs12 sm12 md4 v-if="component_status">
                 <v-text-field
                   label="Password"
                   outline
@@ -111,7 +111,7 @@
                   counter="15"
                 ></v-text-field>
               </v-flex>
-              <v-flex xs12 sm12 md6 v-if="component_status">
+              <v-flex xs12 sm12 md4 v-if="component_status">
                 <v-text-field
                   label="Confirm password"
                   outline
@@ -121,16 +121,16 @@
                   @blur="$v.confirm_password.$touch()"
                 >></v-text-field>
               </v-flex>
-              <v-flex xs12 sm12 md12>
+              <v-flex xs12 sm12 md4>
                 <v-select label="Role" outline v-model="role" class="required" :items="roles"></v-select>
               </v-flex>
-              <v-flex xs12 sm12 md6>
+              <v-flex xs12 sm12 md12>
                 <v-subheader>Date joined</v-subheader>
-                <v-date-picker v-model="dateJoined" :landscape="true" :max="joinedDateMax"></v-date-picker>
+                <v-date-picker v-model="dateJoined" :landscape="true" :max="joinedDateMax" full-width></v-date-picker>
               </v-flex>
-              <v-flex xs12 sm12 md6>
+              <v-flex xs12 sm12 md12>
                 <v-subheader>Birthday</v-subheader>
-                <v-date-picker v-model="birthday" :landscape="true"></v-date-picker>
+                <v-date-picker v-model="birthday" :landscape="true" :max="maxBirthday" full-width></v-date-picker>
               </v-flex>
             </v-layout>
           </v-card-text>
@@ -335,6 +335,7 @@ export default {
       this.GET_DATA(this.$route.query.id);
     }
     this.joinedDateMax = this.$moment().format('YYYY-MM-DD');
+    this.maxBirthday = this.$moment().subtract(18, 'years').format('YYYY-MM-DD');
   },
   data() {
     return {
@@ -369,6 +370,7 @@ export default {
       dateJoined: '',
       birthday: '',
       joinedDateMax: '',
+      maxBirthday: '',
     };
   },
   methods: {

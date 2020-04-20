@@ -1,24 +1,24 @@
 <template>
   <v-layout row wrap justify-center>
-    <v-flex xs12 sm12 md6>
+    <v-flex xs12 sm12 md12>
       <v-card>
         <v-card-title color="red">
-          <h1>User Report</h1>
+          <h1>Users Report</h1>
         </v-card-title>
         <v-card-text>
           <v-layout row wrap>
-            <v-flex xs12 sm12 md12>
+            <v-flex xs12 sm12 md6>
               <v-autocomplete
                 label="Roles"
                 outline
-                :items="items"
-                item-text="role"
-                item-value="role"
+                :items="roles"
+                item-text="text"
+                item-value="text"
                 multiple
                 v-model="selectedRoles"
               ></v-autocomplete>
             </v-flex>
-            <v-flex xs12 sm12 md12>
+            <v-flex xs12 sm12 md6>
               <v-autocomplete
                 label="Order by"
                 outline
@@ -29,9 +29,10 @@
               ></v-autocomplete>
             </v-flex>
             <v-flex xs12 sm12 md12>
+              <v-subheader>User status :</v-subheader>
               <v-radio-group row v-model="status">
-                <v-radio label="Active" value="Active"></v-radio>
-                <v-radio label="Inactive" value="Inactive"></v-radio>
+                <v-radio label="Active" :value="true"></v-radio>
+                <v-radio label="Inactive" :value="false"></v-radio>
                 <v-radio label="All" value="All"></v-radio>
               </v-radio-group>
             </v-flex>
@@ -42,7 +43,7 @@
             class="btn"
             :fetch="POST"
             :fields="json_fields"
-            name="userReport.csv"
+            name="usersReport.csv"
             type="csv"
             :style=" $v.$invalid ? 'pointer-events:none;' : 'pointer-events:auto;' "
           >Download Excel</JsonExcel>
@@ -68,20 +69,23 @@ export default {
     JsonExcel,
   },
   mounted() {
-    this.GET();
+
   },
   data() {
     return {
       json_fields: {
         Id: 'id',
-        'Full name': 'fullName',
-        Email: 'email',
+        Title: 'title',
+        'First Name': 'firstName',
+        'Last Name': 'lastName',
         NIC: 'nic',
-        'Contact Number 1': 'contactNumber1',
-        'Contact Number 2': 'contactNumber2',
+        Email: 'email',
+        'Contact Numbers': 'contactNumbers',
         Address: 'address',
         Notes: 'notes',
         Role: 'role',
+        'Date Joined': 'dateJoined',
+        Birthday: 'birthday',
         Status: 'status',
         createdAt: 'createdAt',
         updatedAt: 'updatedAt',
@@ -93,26 +97,27 @@ export default {
         { text: 'Last Name Descending', value: 'lastName DESC' },
         { text: 'Created Date Ascending', value: 'createdAt' },
         { text: 'Created Date Descending', value: 'createdAt DESC' },
+        { text: 'Role', value: 'role' },
       ],
       orderBy: 'firstName',
       alertType: 'error',
-      alert: 'Error while loading the data from api...',
+      alert: 'Error while loading the data from API...',
       hasAlert: false,
       status: 'All',
+      roles: [
+        {
+          text: 'admin',
+        },
+        { text: 'staff' },
+        {
+          text: 'to',
+        },
+        // { text: 'driver' },
+      ],
     };
   },
   methods: {
-    async GET() {
-      try {
-        const data = await this.$http.get('reports/roles');
 
-        this.items = data.data;
-      } catch (error) {
-        this.alertType = 'error';
-        this.alert = 'Error while loading the data from api...';
-        this.hasAlert = false;
-      }
-    },
     async POST() {
       try {
         const formData = {
@@ -128,7 +133,7 @@ export default {
           return;
         }
 
-        const data = await this.$http.post('/reports/user', formData);
+        const data = await this.$http.post('auth/report', formData);
         if (data.data.length === 0) {
           this.alertType = 'error';
           this.alert = 'No data available!';

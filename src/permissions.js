@@ -57,9 +57,9 @@ module.exports = {
       'icon-alt': 'fa-angle-down',
       text: 'Reports',
       children: [
-        // { text: 'Audit report', path: '/auditR' },
+        { text: 'Audit report', path: '/auditR' },
 
-        // { text: 'User report', path: '/userR' },
+        { text: 'User report', path: '/userR' },
         // { text: 'Categories report', path: '/categoryR' },
         // { text: 'Vehicles report', path: '/vehicleR' },
         // { text: 'Places report', path: '/placeR' },
