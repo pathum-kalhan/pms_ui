@@ -1,32 +1,22 @@
 <template>
-  <v-layout row wrap>
+  <v-layout row wrap justify-center>
     <v-flex xs12 sm12 md12>
       <v-card>
         <v-card-title>
-          <h1>Audits Report</h1>
+          <h1>Attendances Report</h1>
         </v-card-title>
         <v-card-text>
           <v-layout row wrap>
             <v-flex xs12 sm12 md6>
-              <v-subheader>From</v-subheader>
-              <v-date-picker  v-model="dateFrom" :max="maxDate" landscape></v-date-picker>
-            </v-flex>
-            <v-flex xs12 sm12 md6>
-              <v-subheader>To</v-subheader>
-              <v-date-picker  v-model="dateTo" :max="maxDate" landscape></v-date-picker>
-            </v-flex>
-            <v-flex xs12 sm12 md6>
-
-              <v-autocomplete
-                label="Users"
-                :items="items"
-                item-value="id"
-                item-text="fullName"
-                v-model="selectedUsers"
-                multiple
-                outline
-
-              ></v-autocomplete>
+              <v-autocomplete :items="users"
+                    v-model="userId"
+                    label="Staff member"
+                    item-text="fullName"
+                    item-value="id"
+                    outline
+                    class="required"
+                    multiple
+                  ></v-autocomplete>
             </v-flex>
             <v-flex xs12 sm12 md6>
               <v-autocomplete
@@ -38,6 +28,16 @@
                 v-model="orderBy"
               ></v-autocomplete>
             </v-flex>
+
+
+            <v-flex xs12 sm12 md6>
+              <v-subheader>Created From</v-subheader>
+              <v-date-picker  v-model="dateFrom" :max="maxDate" landscape></v-date-picker>
+            </v-flex>
+            <v-flex xs12 sm12 md6>
+              <v-subheader>Created To</v-subheader>
+              <v-date-picker  v-model="dateTo" :max="maxDate" landscape></v-date-picker>
+            </v-flex>
           </v-layout>
         </v-card-text>
         <v-card-actions>
@@ -45,9 +45,10 @@
             class="btn"
             :fetch="POST"
             :fields="json_fields"
-            name="auditsReport.csv"
+            name="attendanceReport.csv"
             type="csv"
             :style=" $v.$invalid ? 'pointer-events:none;cursor: no-drop;' : 'pointer-events:auto;' "
+
           >Download Excel</JsonExcel>
         </v-card-actions>
       </v-card>
@@ -67,68 +68,75 @@ const dateGreaterThan = (value, vm) => {
   const to = new Date(value);
   return from <= to;
 };
-
 export default {
-  validations: {
-    dateFrom: { required },
-    dateTo: { required, dateGreaterThan },
-    selectedUsers: { required },
-    orderBy: { required },
-  },
   components: {
     JsonExcel,
   },
+  validations: {
+    userId: { required },
+    orderBy: { required },
+    dateTo: { required, dateGreaterThan },
+    dateFrom: { required },
+  },
   mounted() {
-    this.GET();
+    this.getUsers();
     this.maxDate = this.$moment().format('YYYY-MM-DD');
   },
   data() {
     return {
       maxDate: '',
       json_fields: {
-        id: 'id',
-        'Full name': 'fullName',
-        Area: 'area',
-        Action: 'action',
-        Description: 'description',
-        'Reference Id': 'reference',
-        CreatedAt: 'createdAt',
+        Id: 'id',
+        Staff: 'fullName',
+        'Attendance Date': 'attendanceDate',
+        Site: 'site',
+        'Check In': 'checkIn',
+        'Check Out': 'checkOut',
+        Type: 'status',
+        createdAt: 'createdAt',
+
       },
       items: [],
-      selectedUsers: [],
+      selectedCats: [],
       dateFrom: '',
-      dateTo: '',
       alertType: 'error',
       alert: 'Error while loading the data from API...',
       hasAlert: false,
+      categories: [],
+      fuelType: '',
+      dateTo: '',
+      users: [],
+      userId: [],
       orderByTypes: [
-        { text: 'Area', value: 'area' },
-        { text: 'Area Descending', value: 'area DESC' },
-        { text: 'Action Ascending', value: 'audits.action' },
-        { text: 'Action Descending', value: 'audits.action DESC' },
-        { text: 'Created Date Ascending', value: 'DATE(audits.createdAt)' },
-        { text: 'Created Date Descending', value: 'DATE(audits.createdAt) DESC' },
+        // { text: 'Name Ascending', value: 'name' },
+        // { text: 'Name Descending', value: 'name DESC' },
+        { text: 'Attendance Date', value: 'DATE(attendanceDate.createdAt)' },
+        { text: 'Attendance Date Descending', value: 'DATE(attendanceDate.createdAt) DESC' },
+        { text: 'Site Name', value: 'site' },
+        { text: 'Created Date Ascending', value: 'DATE(attendances.createdAt)' },
+        { text: 'Created Date Descending', value: 'DATE(attendances.createdAt) DESC' },
       ],
-      orderBy: 'area',
+      orderBy: 'DATE(attendances.createdAt)',
     };
   },
   methods: {
-    async GET() {
+    async getUsers() {
       try {
-        const data = await this.$http.get('auth/all');
-        this.items = data.data;
+        const data = await this.$http.get('auth');
+        this.users = data.data;
       } catch (error) {
         this.alertType = 'error';
-        this.alert = 'Error while loading the data from API...';
+        this.alert = 'Error while loading the users data from API...';
         this.hasAlert = false;
       }
     },
     async POST() {
       try {
         const formData = {
-          ids: this.selectedUsers,
+          ids: this.userId,
           from: this.dateFrom,
           to: this.dateTo,
+
           orderBy: this.orderBy,
         };
         if (this.$v.$invalid) {
@@ -137,14 +145,14 @@ export default {
           this.hasAlert = true;
           return;
         }
-        const data = await this.$http.post('audit/report', formData);
+
+        const data = await this.$http.post('attendance/report', formData);
         if (data.data.length === 0) {
           this.alertType = 'error';
           this.alert = 'No data available!';
           this.hasAlert = true;
           return;
         }
-
         return data.data;
       } catch (error) {
         this.alertType = 'error';

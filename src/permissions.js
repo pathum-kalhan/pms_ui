@@ -60,7 +60,7 @@ module.exports = {
         { text: 'Audit report', path: '/auditR' },
 
         { text: 'User report', path: '/userR' },
-        // { text: 'Categories report', path: '/categoryR' },
+        { text: 'Attendance report', path: '/attendanceR' },
         // { text: 'Vehicles report', path: '/vehicleR' },
         // { text: 'Places report', path: '/placeR' },
         // { text: 'Trips report', path: '/tripsR' },

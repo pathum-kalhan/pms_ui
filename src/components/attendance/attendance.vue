@@ -218,7 +218,7 @@ export default {
     },
     async PUT() {
       try {
-        await this.$http.put(`/attendance/${this.id}`, {
+        await this.$http.put(`attendance/${this.id}`, {
           userId: this.userId,
           site: this.site,
           checkIn: this.checkIn,

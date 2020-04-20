@@ -17,9 +17,9 @@ import estimatesList from './components/estimate/estimatesList.vue';
 import resetPassword from './components/common/resetPassword.vue';
 
 // reports
-import categoryReport from './components/reports/categoryR.vue';
-import userR from './components/reports/userR.vue';
 import auditR from './components/reports/auditR.vue';
+import userR from './components/reports/userR.vue';
+import attendanceR from './components/reports/attendanceReport.vue';
 import vehicleR from './components/reports/vehicleR.vue';
 import placeR from './components/reports/placeR.vue';
 import fuelR from './components/reports/fuelR.vue';
@@ -120,8 +120,8 @@ const routes = [
 
   },
   {
-    path: '/categoryR',
-    component: categoryReport,
+    path: '/attendanceR',
+    component: attendanceR,
     meta: {
       permissions: ['admin', 'manager'],
 
