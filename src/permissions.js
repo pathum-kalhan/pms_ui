@@ -57,11 +57,11 @@ module.exports = {
       'icon-alt': 'fa-angle-down',
       text: 'Reports',
       children: [
-        { text: 'Audit report', path: '/auditR' },
+        { text: 'Audits report', path: '/auditR' },
 
-        { text: 'User report', path: '/userR' },
-        { text: 'Attendance report', path: '/attendanceR' },
-        // { text: 'Vehicles report', path: '/vehicleR' },
+        { text: 'Users report', path: '/userR' },
+        { text: 'Attendances report', path: '/attendanceR' },
+        { text: 'Items report', path: '/itemR' },
         // { text: 'Places report', path: '/placeR' },
         // { text: 'Trips report', path: '/tripsR' },
 

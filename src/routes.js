@@ -23,7 +23,7 @@ import attendanceR from './components/reports/attendanceReport.vue';
 import vehicleR from './components/reports/vehicleR.vue';
 import placeR from './components/reports/placeR.vue';
 import fuelR from './components/reports/fuelR.vue';
-import maintaR from './components/reports/maintaR.vue';
+import itemR from './components/reports/itemR.vue';
 import financeR from './components/reports/financeR.vue';
 import summaryR from './components/reports/summaryR.vue';
 import tripR from './components/reports/tripR.vue';
@@ -170,8 +170,8 @@ const routes = [
 
     },
   }, {
-    path: '/maintaR',
-    component: maintaR,
+    path: '/itemR',
+    component: itemR,
     meta: {
       permissions: ['admin', 'manager'],
 
